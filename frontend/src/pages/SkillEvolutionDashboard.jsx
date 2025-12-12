@@ -17,8 +17,8 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip">
-        <p className="label">{`Year: ${label}`}</p>
-        <p className="intro">{`Demand Score: ${payload[0].value}`}</p>
+        <p className="label" style={{ color: "#e2e8f0", marginBottom: "4px" }}>{`Year: ${label}`}</p>
+        <p className="intro" style={{ color: "#fff", fontWeight: "bold" }}>{`Demand Score: ${payload[0].value}`}</p>
       </div>
     );
   }
@@ -64,7 +64,7 @@ const SkillEvolutionDashboard = () => {
     return (
       <div
         className="glass-card"
-        style={{ padding: "40px", textAlign: "center" }}
+        style={{ padding: "40px", textAlign: "center", color: "#94a3b8" }}
       >
         Loading Dashboard Data...
       </div>
@@ -81,7 +81,7 @@ const SkillEvolutionDashboard = () => {
       <div className="profile-header">
         <h2>Skill Evolution Dashboard</h2>
         <Link to="/profile" className="back-link">
-          Back to Profile
+          ← Back to Profile
         </Link>
       </div>
 
@@ -114,39 +114,57 @@ const SkillEvolutionDashboard = () => {
             <ResponsiveContainer width="100%" height={400}>
               <LineChart
                 data={chartData}
-                margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
+                margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
               >
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="rgba(255, 255, 255, 0.2)"
+                  stroke="rgba(255, 255, 255, 0.1)"
+                  vertical={false}
                 />
-                <XAxis dataKey="year" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <XAxis 
+                  dataKey="year" 
+                  stroke="#94a3b8" 
+                  tick={{ fill: '#94a3b8', fontSize: 12 }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis 
+                  stroke="#94a3b8" 
+                  tick={{ fill: '#94a3b8', fontSize: 12 }}
+                  tickLine={false}
+                  axisLine={false}
+                />
                 <Tooltip
                   content={<CustomTooltip />}
-                  wrapperStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid #334155",
-                    borderRadius: "10px",
-                  }}
+                  cursor={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 }}
                 />
-                <Legend />
+                <Legend iconType="circle" />
+                
+                {/* Historical Line - Neon Indigo */}
                 <Line
                   type="monotone"
                   dataKey="demand_score"
                   name="Historical Demand"
-                  stroke="#8884d8"
-                  strokeWidth={2}
+                  stroke="#6366f1"
+                  strokeWidth={3}
+                  dot={{ r: 4, fill: "#6366f1", strokeWidth: 2, stroke: "#fff" }}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
                   data={selectedSkill.history}
+                  animationDuration={1500}
                 />
+                
+                {/* Forecast Line - Neon Cyan */}
                 <Line
                   type="monotone"
                   dataKey="demand_score"
                   name="Forecasted Demand"
-                  stroke="#82ca9d"
-                  strokeWidth={2}
+                  stroke="#06b6d4"
+                  strokeWidth={3}
                   strokeDasharray="5 5"
+                  dot={false}
+                  activeDot={{ r: 6, fill: "#06b6d4", strokeWidth: 0 }}
                   data={selectedSkill.forecast}
+                  animationDuration={1500}
                 />
               </LineChart>
             </ResponsiveContainer>

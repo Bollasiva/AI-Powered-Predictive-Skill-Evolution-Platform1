@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # 1. MongoDB
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # 2. AI Engine (Python)
+  ai-engine:
+    build:
+      context: ./ai-engine
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./ai-engine:/app
+    environment:
+      - FLASK_ENV=development
+
+  # 3. Backend (Node.js)
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+      - ai-engine
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/skill-platform
+      - AI_SERVICE_URL=http://ai-engine:5001
+      - JWT_SECRET=your_jwt_secret_production_key
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # 4. Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    environment:
+      - HOST=0.0.0.0
+      - WDS_SOCKET_PORT=3000
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

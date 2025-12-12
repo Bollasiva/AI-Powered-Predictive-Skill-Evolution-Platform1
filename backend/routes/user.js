@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const SkillSchema = new mongoose.Schema({
     skillName: { type: String, required: true, trim: true },
-    // Standardized 'proficiency' to match your frontend expectations
     proficiency: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert'], required: true }
 });
 

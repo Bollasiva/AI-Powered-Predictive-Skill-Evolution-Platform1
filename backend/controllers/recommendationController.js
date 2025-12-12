@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user'); // FIX: Lowercase 'user' matches filename
 const Trend = require('../models/Trend');
 const resourceMap = require('../data/resourceMap');
 const careerPaths = require('../data/careerPaths');
@@ -23,6 +23,12 @@ const calculateWeightedSimilarity = (currentSkills, otherSkills) => {
 exports.getMarketRecommendations = async (req, res) => {
   try {
     const { skills: userSkills, careerInterest } = req.body;
+    
+    // Safety check
+    if (!userSkills || !careerInterest) {
+        return res.status(400).json({ msg: "Missing skills or career interest" });
+    }
+
     const userSkillSet = new Set(userSkills.map(s => s.skillName.toLowerCase()));
     const requiredSkills = careerPaths[careerInterest];
     if (!requiredSkills) return res.status(404).json({ msg: 'Career path not found.' });
@@ -46,7 +52,6 @@ exports.getMarketRecommendations = async (req, res) => {
       const missingPrereq = prerequisites.find(pr => !userSkillSet.has(pr));
       
       if (missingPrereq) {
-        // Add only if better relevance
         if (!recommendationsMap.has(missingPrereq) || relevance > recommendationsMap.get(missingPrereq).relevance_score) {
           recommendationsMap.set(missingPrereq, { skill: missingPrereq, type: 'prerequisite', unlocks: skill, relevance_score: relevance });
         }
@@ -82,8 +87,15 @@ exports.getMarketRecommendations = async (req, res) => {
 
 exports.getCollaborativeRecommendations = async (req, res) => {
   try {
+    // FIX: Safety Check for Auth to prevent crash
+    if (!req.user || !req.user.id) {
+        return res.status(401).json({ msg: "User not authenticated" });
+    }
+
     const currentUser = await User.findById(req.user.id).select('skills');
-    // Only sample top 100 users for performance in large DBs
+    if (!currentUser) return res.status(404).json({ msg: "User not found" });
+
+    // Only sample top 100 users for performance
     const otherUsers = await User.find({ _id: { $ne: req.user.id } }).select('skills').limit(100);
     const currentSkillSet = new Set(currentUser.skills.map(s => s.skillName.toLowerCase()));
 

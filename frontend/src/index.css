@@ -1,2 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
-body { margin: 0; font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* --- Palette: Luminous Horizon --- */
+  --bg-dark: #09090b;
+  --glass-bg: rgba(20, 20, 25, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
+  
+  --primary: #6366f1;       /* Indigo */
+  --primary-glow: #818cf8;
+  --accent-cyan: #06b6d4;   /* Cyan */
+  --accent-pink: #d946ef;   /* Fuchsia */
+  --accent-success: #10b981;
+  --accent-warn: #f59e0b;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  --gradient-main: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #d946ef 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(217, 70, 239, 0.5));
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  /* Subtle ambient background glow */
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(217, 70, 239, 0.15), transparent 25%);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Outfit', sans-serif; /* More modern heading font */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
