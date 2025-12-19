@@ -2,10 +2,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const User = require("../models/User");
 
 // ✅ Correct Gemini client initialization
-const genAI = new GoogleGenerativeAI({
-  apiKey: process.env.GEMINI_API_KEY,      // MUST be GEMINI_API_KEY
-  baseUrl: "https://generativelanguage.googleapis.com/v1"
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 exports.getChatResponse = async (req, res) => {
   const { message, history } = req.body;

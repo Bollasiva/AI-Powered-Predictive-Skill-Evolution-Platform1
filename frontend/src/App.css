@@ -1,22 +1,84 @@
-/* --- Base Card Style (Refined Glass) --- */
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
+/* --- Shimmer & Skeleton Loaders --- */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.shimmer {
+  background: #1e293b;
+  background-image: linear-gradient(
+    to right, 
+    #1e293b 0%, 
+    #334155 20%, 
+    #1e293b 40%, 
+    #1e293b 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 400px;
+  display: inline-block;
+  position: relative;
+  animation: shimmer 1.5s linear infinite forwards;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 1rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 2rem;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.skeleton-card {
+  height: 200px;
+  width: 100%;
+  border-radius: 16px;
+}
+
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-radius: 24px;
-  border: 1px solid var(--glass-border);
-  border-top: 1px solid var(--glass-highlight); /* Top highlight for 3D effect */
-  padding: 48px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(0, 0, 0, 0.2);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 32px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 /* --- Authentication Page --- */
-.auth-card { width: 100%; max-width: 440px; }
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+}
 
 .auth-card h2 {
   font-size: 2.75rem;
@@ -24,6 +86,8 @@
   text-align: center;
   background: var(--gradient-main);
   -webkit-background-clip: text;
+  background-clip: text;
+  /* Standard property */
   -webkit-text-fill-color: transparent;
   margin-bottom: 2.5rem;
   letter-spacing: -0.02em;
@@ -32,14 +96,22 @@
 /* Decorative background blob */
 .blob {
   position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
   background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
 
-.auth-form { display: flex; flex-direction: column; gap: 1.5rem; position: relative; z-index: 1; }
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
 
 .form-input {
   width: 100%;
@@ -68,7 +140,9 @@
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }
 
-.form-input:focus + .input-icon { color: var(--primary); }
+.form-input:focus+.input-icon {
+  color: var(--primary);
+}
 
 .form-button {
   width: 100%;
@@ -108,10 +182,46 @@
   transition: color 0.2s;
 }
 
-.toggle-auth-button:hover { color: #fff; text-decoration: underline; }
+.toggle-auth-button:hover {
+  color: #fff;
+  text-decoration: underline;
+}
 
 /* --- Skill Profile Page --- */
-.profile-card { width: 100%; max-width: 550px; }
+.profile-card {
+  width: 100%;
+  max-width: 1100px;
+  padding: 32px;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 
 .profile-header {
   display: flex;
@@ -122,7 +232,27 @@
   border-bottom: 1px solid var(--glass-border);
 }
 
-.profile-header h2 { font-size: 2rem; font-weight: 700; margin: 0; }
+.profile-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.user-greeting {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
 
 .logout-button {
   padding: 8px 16px;
@@ -135,19 +265,33 @@
   transition: all 0.2s;
 }
 
-.logout-button:hover { background: rgba(239, 68, 68, 0.25); color: #fff; }
+.logout-button:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fff;
+}
 
 .profile-section h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-section h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(6, 182, 212, 0.2), transparent);
 }
 
 /* List Items (Skills) */
-.skill-item, .trend-item {
+.skill-item,
+.trend-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -165,7 +309,28 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.skill-name { font-weight: 500; font-size: 1rem; }
+.skill-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #f8fafc;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.compact-skill-card {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
 
 .skill-proficiency {
   padding: 4px 10px;
@@ -188,23 +353,33 @@
 }
 
 .delete-skill-button {
-  width: 28px; height: 28px;
+  width: 28px;
+  height: 28px;
   background: transparent;
   border: 1px solid #475569;
   color: #94a3b8;
   border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
 
 .delete-skill-button:hover {
-  border-color: #ef4444; color: #ef4444; background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
 }
 
 /* Buttons Container */
-.action-buttons-container { display: flex; gap: 12px; margin-top: 2rem; }
+.action-buttons-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 2rem;
+}
 
-.add-skill-toggle-button, .save-profile-button {
+.add-skill-toggle-button,
+.save-profile-button {
   flex: 1;
   padding: 14px;
   font-size: 0.95rem;
@@ -215,20 +390,65 @@
   transition: filter 0.2s;
 }
 
-.add-skill-toggle-button { background: #334155; color: #fff; }
-.add-skill-toggle-button:hover { background: #475569; }
+.add-skill-toggle-button {
+  background: #334155;
+  color: #fff;
+}
+
+.add-skill-toggle-button:hover {
+  background: #475569;
+}
 
 .save-profile-button {
   background: var(--accent-success);
   color: #022c22;
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
-.save-profile-button:hover { filter: brightness(1.1); }
+
+.save-profile-button:hover {
+  filter: brightness(1.1);
+}
+
+/* Resume Upload Styling */
+.resume-upload-container {
+  flex: 1;
+}
+
+.resume-upload-label {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-cyan);
+  border: 1px dashed var(--accent-cyan);
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resume-upload-label:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-style: solid;
+}
+
+.resume-upload-label.loading {
+  opacity: 0.6;
+  cursor: wait;
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  border-color: #475569;
+}
 
 /* Add Skill Form */
-.add-skill-form { 
-  display: flex; gap: 10px; margin-top: 15px; 
-  padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; 
+.add-skill-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 }
 
 .add-skill-form select {
@@ -251,27 +471,49 @@
 }
 
 /* --- Recommendations --- */
-.recommendation-item {
-  background: rgba(6, 182, 212, 0.05); /* Cyan tint */
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  padding: 20px;
-  border-radius: 16px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.rec-skill-name { font-size: 1.2rem; font-weight: 700; color: var(--accent-cyan); }
+.recommendation-item {
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid var(--glass-border);
+  padding: 18px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-item:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-4px);
+  background: rgba(6, 182, 212, 0.05);
+}
+
+.rec-skill-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
 
 .rec-relevance-score {
-  font-size: 0.75rem; font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--bg-dark);
   background: var(--accent-cyan);
   padding: 4px 10px;
   border-radius: 20px;
 }
 
-.rec-details { color: #94a3b8; font-size: 0.9rem; margin-top: 8px; }
+.rec-details {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
 
 .start-learning-link {
   display: inline-block;
@@ -305,7 +547,10 @@
   transition: border-color 0.2s;
 }
 
-.career-interest-select:focus { outline: none; border-color: var(--accent-cyan); }
+.career-interest-select:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+}
 
 .chart-title {
   text-align: center;
@@ -313,6 +558,8 @@
   font-size: 1.5rem;
   background: linear-gradient(to right, #fff, #94a3b8);
   -webkit-background-clip: text;
+  background-clip: text;
+  /* Standard property */
   -webkit-text-fill-color: transparent;
 }
 
@@ -321,46 +568,63 @@
   border: 1px solid var(--glass-border);
   border-radius: 8px;
   padding: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
-.back-link { 
-  color: var(--text-muted); 
-  text-decoration: none; 
-  font-size: 0.9rem; 
-  display: flex; align-items: center; gap: 5px;
+.back-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   transition: color 0.2s;
 }
-.back-link:hover { color: #fff; }
+
+.back-link:hover {
+  color: #fff;
+}
 
 /* --- Modern Chat Bot --- */
 .mentor-bot-fab {
-  position: fixed; bottom: 30px; right: 30px;
-  width: 64px; height: 64px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 64px;
+  height: 64px;
   background: var(--gradient-main);
   border-radius: 20px;
   border: none;
   color: white;
   font-size: 28px;
-  display: flex; justify-content: center; align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   box-shadow: 0 8px 30px rgba(126, 34, 206, 0.4);
   transition: transform 0.2s;
   z-index: 1000;
 }
 
-.mentor-bot-fab:hover { transform: scale(1.05) rotate(5deg); }
+.mentor-bot-fab:hover {
+  transform: scale(1.05) rotate(5deg);
+}
 
 .chat-window {
-  position: fixed; bottom: 110px; right: 30px;
-  width: 380px; height: 550px;
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  width: 380px;
+  height: 550px;
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 24px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  display: flex; flex-direction: column;
-  overflow: hidden; z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
 }
 
 .chat-header {
@@ -368,7 +632,9 @@
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid var(--glass-border);
   font-weight: 700;
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chat-message {
@@ -408,13 +674,19 @@
   padding: 12px 16px;
   border-radius: 25px;
 }
-.chat-input:focus { border-color: var(--primary); }
+
+.chat-input:focus {
+  border-color: var(--primary);
+}
 
 .chat-send-btn {
   background: var(--primary);
   color: white;
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   padding: 0;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

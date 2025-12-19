@@ -2,7 +2,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 
-const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://ai-engine:5001';
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5001';
 
 const parseResume = async (filePath) => {
   try {
@@ -15,10 +15,11 @@ const parseResume = async (filePath) => {
       },
     });
 
-    return response.data.extracted_skills;
+    // Returns { technical_skills, soft_skills, role, seniority }
+    return response.data;
   } catch (error) {
     console.error("AI Service Error:", error.message);
-    throw new Error('Failed to process resume');
+    throw new Error('Failed to process resume via AI Engine');
   }
 };
 
@@ -27,8 +28,19 @@ const getTrendPrediction = async (skill) => {
     const response = await axios.post(`${AI_SERVICE_URL}/predict-trend`, { skill });
     return response.data;
   } catch (error) {
+    console.error("Trend Prediction Error:", error.message);
     throw new Error('Prediction failed');
   }
 };
 
-module.exports = { parseResume, getTrendPrediction };
+const getSemanticSkills = async (skill) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/semantic-skills`, { skill });
+    return response.data.related_skills;
+  } catch (error) {
+    console.error("Semantic Skills Error:", error.message);
+    return []; // Return empty if AI fails
+  }
+};
+
+module.exports = { parseResume, getTrendPrediction, getSemanticSkills };

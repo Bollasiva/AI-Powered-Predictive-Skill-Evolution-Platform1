@@ -4,7 +4,7 @@ import axios from "axios";
 // This bypasses the Docker Proxy issues entirely.
 const API_URL = "http://localhost:5000/api";
 
-console.log("🔗 FRONTEND CONNECTING TO:", API_URL);
+console.log("🚀 DASHBOARD_UI_V2 CONNECTING TO:", API_URL);
 
 const API = axios.create({
   baseURL: API_URL,
@@ -30,9 +30,8 @@ const handleRequest = async (apiCall) => {
       error?.response?.data?.content ||
       error.message ||
       "Something went wrong!";
-    
+
     console.error("❌ API Error:", errMsg);
-    // REMOVED: console.log(genAI.listModels()) -> This was crashing your app!
     throw new Error(errMsg);
   }
 };
@@ -69,3 +68,9 @@ export const getDashboardData = () =>
 // --- MENTOR BOT ---
 export const getMentorResponse = (message, history) =>
   handleRequest(API.post("/mentor/chat", { message, history }));
+
+// --- RESUME ---
+export const uploadResume = (formData) =>
+  handleRequest(API.post("/resume/upload", formData, {
+    headers: { "Content-Type": "multipart/form-data" }
+  }));

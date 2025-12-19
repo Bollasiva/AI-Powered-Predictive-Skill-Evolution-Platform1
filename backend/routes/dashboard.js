@@ -10,9 +10,9 @@ router.get('/trends', auth, async (req, res) => {
       Trend.findById('skill_historical_trends'),
       Forecast.findById('skill_forecasts')
     ]);
-    
+
     if (!trendsData || !forecastsData) {
-      return res.status(404).json({ msg: 'Dashboard data not found.' });
+      return res.json([]); // Return empty list instead of 404
     }
 
     const combinedData = trendsData.trends.map(trend => {

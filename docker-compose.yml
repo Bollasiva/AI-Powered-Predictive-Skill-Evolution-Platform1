@@ -17,8 +17,8 @@ services:
       - "5001:5001"
     volumes:
       - ./ai-engine:/app
-    environment:
-      - FLASK_ENV=development
+    # environment:
+    #   - MONGO_URI=mongodb://mongo:27017/skill-platform
 
   # 3. Backend (Node.js)
   backend:
@@ -30,9 +30,8 @@ services:
       - mongo
       - ai-engine
     environment:
-      - MONGO_URI=mongodb://mongo:27017/skill-platform
       - AI_SERVICE_URL=http://ai-engine:5001
-      - JWT_SECRET=your_jwt_secret_production_key
+      - FLASK_ENV=development
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -47,6 +46,11 @@ services:
     environment:
       - HOST=0.0.0.0
       - WDS_SOCKET_PORT=3000
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
 

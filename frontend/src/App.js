@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Auth from './components/Auth';
 import SkillProfile from './components/SkillProfile';
-import SkillEvolutionDashboard from './pages/SkillEvolutionDashboard';
-import './index.css'; 
-import './App.css'; 
+import SkillEvolutionDashboard from './pages/SkillEvolutionDashboard.jsx';
+import './index.css';
+import './App.css';
 
 function App() {
   const token = localStorage.getItem('token');
