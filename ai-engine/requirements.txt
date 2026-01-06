@@ -1,7 +1,12 @@
 flask
 flask-cors
-pdfplumber
-spacy
 python-dotenv
+google-genai
+spacy
+pdfminer.six
+google-search-results
+pandas
+statsmodels
+textblob
 pymongo
-google-generativeai
+pdfplumber
